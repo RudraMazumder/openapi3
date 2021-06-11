@@ -1,6 +1,9 @@
 package com.example.demo;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
+
+
+import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +13,7 @@ class StudentServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
-		assertThat(true);
+		assertEquals(0, 0);
 	}
 
 }
