@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.StudentApi;
+import com.example.demo.service.StudentService;
 import com.example.models.Student;
 
 
@@ -27,18 +28,20 @@ public class StudentController implements StudentApi{
 	
 	
 	private static Logger logger = LoggerFactory.getLogger(StudentController.class);
+
+	
 	@Autowired
-	private List<Student> students;
+	private StudentService studentService;
 	
 
 	@Override
 	public ResponseEntity<List<Student>> studentGet(@Valid String studentname) {
 		logger.info("Entered get operation");
 		if(StringUtils.isEmpty(studentname)) {
-			return new ResponseEntity<List<Student>>(students, HttpStatus.OK);
+			return new ResponseEntity<List<Student>>(studentService.getAllStudent(), HttpStatus.OK);
 		}
 		else {
-			List<Student> studentsNameList = students.stream().filter(t->t.getStudentName().equalsIgnoreCase(studentname)).collect(Collectors.toList());
+			List<Student> studentsNameList = studentService.getAllStudent().stream().filter(t->t.getStudentName().equalsIgnoreCase(studentname)).collect(Collectors.toList());
 			
 			if(!studentsNameList.isEmpty()) {
 				return new ResponseEntity<List<Student>>(studentsNameList, HttpStatus.OK);
@@ -51,23 +54,23 @@ public class StudentController implements StudentApi{
 
 	@Override
 	public ResponseEntity<Void> studentPost(@Valid Student body) {
-		students.add(body);
+		studentService.saveStudent(body);
 		return null;
 	}
 
 	@Override
 	public ResponseEntity<Void> studentIdDelete(Integer id) {
-		logger.info("deleting student with id {}", id);
-		students.removeIf(t->t.getStudentID().equals(id));
+		studentService.deleteStudent(id);
 		return null;
 	}
 
 	@Override
 	public ResponseEntity<Student> studentIdGet(Integer id) {
-		Optional<Student> findFirst = students.stream().filter(t->t.getStudentID().equals(id)).findFirst();
-		if(findFirst.isPresent()) {
+		
+		Student student = studentService.getById(id);
+		if(student!=null) {
 			logger.info("Found student with id {}", id);
-			return new ResponseEntity<Student>(findFirst.get(), HttpStatus.OK);
+			return new ResponseEntity<Student>(student, HttpStatus.OK);
 		}
 		else {
 			logger.info("Could not find student with id {}", id);
