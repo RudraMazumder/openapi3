@@ -4,6 +4,10 @@ import com.example.models.Student;
 
 public class StudentUtility {
 	
+	private StudentUtility() {
+		    throw new IllegalStateException("Utility class");
+	}
+	
 	public static Student toStudentModel(com.example.demo.repository.entities.Student student) {
 		Student studentModel = new Student();
 		studentModel.setStudentID(student.getStudentId());
