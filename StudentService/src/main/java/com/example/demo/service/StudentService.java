@@ -1,30 +1,45 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.StudentRepository;
+import com.example.demo.repository.entities.CourseEntity;
+import com.example.demo.repository.entities.StudentEntity;
 import com.example.demo.utility.StudentUtility;
+import com.example.models.Course;
 import com.example.models.Student;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 
 @Service
 public class StudentService {
 	
+	private Logger logger = LoggerFactory.getLogger(StudentService.class);
+	
 	@Autowired
 	private StudentRepository studentDAO;
 	
+	@Autowired
+	private CourseRepository courseDAO;
+	
+	
 	public List<Student> getAllStudent(){
-		 List<com.example.demo.repository.entities.Student> allStudent = studentDAO.findAll();
+		 List<StudentEntity> allStudent = studentDAO.findAll();
 		 return allStudent.stream().map(StudentUtility::toStudentModel).collect(Collectors.toList());		 
 	}
 	
 	public void saveStudent(Student student) {
-		com.example.demo.repository.entities.Student studentEntity = StudentUtility.toStudentEntity(student);
+		StudentEntity studentEntity = StudentUtility.toStudentEntity(student);
 		studentDAO.save(studentEntity);
 	}
 	
@@ -33,7 +48,40 @@ public class StudentService {
 	}
 	
 	public Student getById(Integer id) {
-		com.example.demo.repository.entities.Student student = studentDAO.getOne(id);
+		StudentEntity student = studentDAO.getOne(id);
 		return StudentUtility.toStudentModel(student);
 	}
+	
+	public List<Course> getByStudent(Integer studentId){
+		Set<CourseEntity> courses = studentDAO.getOne(studentId).getCourses();
+		return courses.stream().map(StudentUtility::toCourseModel).collect(Collectors.toList());
+	}
+	
+	public void enrollStudent(Integer studentId, List<Course> courseList) {
+		Set<CourseEntity> courseEntitySet = courseList.stream().map(StudentUtility::toCourseEntity).collect(Collectors.toSet());
+		courseDAO.saveAll(courseEntitySet);
+		
+		StudentEntity student = studentDAO.getOne(studentId);
+		
+		student.setCourses(courseEntitySet);
+		StudentEntity save = studentDAO.save(student);
+		logger.info(toJsonString(save));
+		
+		
+	}
+	
+	public String toJsonString(Object obj) {
+		ObjectMapper mapper = new ObjectMapper();
+		String toReturn=null;
+		
+		try {
+			toReturn=mapper.writeValueAsString(obj);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		return toReturn;
+	}
+	
+	
 }

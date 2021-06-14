@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Student
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-06-11T16:54:17.856189400+02:00[Europe/Amsterdam]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-06-14T12:58:55.375323800+02:00[Europe/Amsterdam]")
 public class Student   {
   @JsonProperty("StudentID")
   private Integer studentID = null;
@@ -21,8 +21,11 @@ public class Student   {
   @JsonProperty("StudentName")
   private String studentName = null;
 
-  @JsonProperty("StudentRemark")
-  private String studentRemark = null;
+  @JsonProperty("Age")
+  private Integer age = null;
+
+  @JsonProperty("GroupID")
+  private String groupID = null;
 
   public Student studentID(Integer studentID) {
     this.studentID = studentID;
@@ -62,23 +65,42 @@ public class Student   {
     this.studentName = studentName;
   }
 
-  public Student studentRemark(String studentRemark) {
-    this.studentRemark = studentRemark;
+  public Student age(Integer age) {
+    this.age = age;
     return this;
   }
 
   /**
-   * Get studentRemark
-   * @return studentRemark
+   * Get age
+   * @return age
   **/
-  @ApiModelProperty(example = "High grade student", value = "")
+  @ApiModelProperty(example = "10", value = "")
   
-    public String getStudentRemark() {
-    return studentRemark;
+    public Integer getAge() {
+    return age;
   }
 
-  public void setStudentRemark(String studentRemark) {
-    this.studentRemark = studentRemark;
+  public void setAge(Integer age) {
+    this.age = age;
+  }
+
+  public Student groupID(String groupID) {
+    this.groupID = groupID;
+    return this;
+  }
+
+  /**
+   * Get groupID
+   * @return groupID
+  **/
+  @ApiModelProperty(example = "GROUP-3", value = "")
+  
+    public String getGroupID() {
+    return groupID;
+  }
+
+  public void setGroupID(String groupID) {
+    this.groupID = groupID;
   }
 
 
@@ -93,12 +115,13 @@ public class Student   {
     Student student = (Student) o;
     return Objects.equals(this.studentID, student.studentID) &&
         Objects.equals(this.studentName, student.studentName) &&
-        Objects.equals(this.studentRemark, student.studentRemark);
+        Objects.equals(this.age, student.age) &&
+        Objects.equals(this.groupID, student.groupID);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(studentID, studentName, studentRemark);
+    return Objects.hash(studentID, studentName, age, groupID);
   }
 
   @Override
@@ -108,7 +131,8 @@ public class Student   {
     
     sb.append("    studentID: ").append(toIndentedString(studentID)).append("\n");
     sb.append("    studentName: ").append(toIndentedString(studentName)).append("\n");
-    sb.append("    studentRemark: ").append(toIndentedString(studentRemark)).append("\n");
+    sb.append("    age: ").append(toIndentedString(age)).append("\n");
+    sb.append("    groupID: ").append(toIndentedString(groupID)).append("\n");
     sb.append("}");
     return sb.toString();
   }

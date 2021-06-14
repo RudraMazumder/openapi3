@@ -1,5 +1,5 @@
 
-package com.example.demo;
+package com.example.demo.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.StudentApi;
 import com.example.demo.service.StudentService;
+import com.example.models.Course;
 import com.example.models.Student;
 
 
@@ -34,23 +35,7 @@ public class StudentController implements StudentApi{
 	private StudentService studentService;
 	
 
-	@Override
-	public ResponseEntity<List<Student>> studentGet(@Valid String studentname) {
-		logger.info("Entered get operation");
-		if(StringUtils.isEmpty(studentname)) {
-			return new ResponseEntity<List<Student>>(studentService.getAllStudent(), HttpStatus.OK);
-		}
-		else {
-			List<Student> studentsNameList = studentService.getAllStudent().stream().filter(t->t.getStudentName().equalsIgnoreCase(studentname)).collect(Collectors.toList());
-			
-			if(!studentsNameList.isEmpty()) {
-				return new ResponseEntity<List<Student>>(studentsNameList, HttpStatus.OK);
-			}else {
-				return new ResponseEntity<List<Student>>(HttpStatus.NOT_FOUND);
-			}
-		}
 	
-	}
 
 	@Override
 	public ResponseEntity<Void> studentPost(@Valid Student body) {
@@ -78,6 +63,32 @@ public class StudentController implements StudentApi{
 		}
 	}
 
+	
+
+	
+
+	@Override
+	public ResponseEntity<List<Course>> studentStudentIdCoursesGet(Integer studentId) {
+		ResponseEntity<List<Course>> responseEntity = new ResponseEntity<List<Course>>(studentService.getByStudent(studentId), HttpStatus.OK);
+		return responseEntity;
+	}
+
+	@Override
+	public ResponseEntity<Void> studentStudentIdCoursesPost(Integer studentId, @Valid List<Course> body) {
+		
+		studentService.enrollStudent(studentId, body);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<Student>> studentGet(@Valid String studentname) {
+		
+		List<Student> allStudent = studentService.getAllStudent();
+		ResponseEntity<List<Student>> response=new ResponseEntity<List<Student>>(allStudent, HttpStatus.OK);
+		return response;
+	}
+
+	
 	
 	
 	

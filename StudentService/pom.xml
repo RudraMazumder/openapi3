@@ -66,6 +66,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -84,7 +90,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/Second.yaml</inputSpec>
+							<inputSpec>${project.basedir}/src/main/resources/StudentAPI.yaml</inputSpec>
 							<language>spring</language>
 							<output>${project.basedir}</output>
 							<generateSupportingFiles>false</generateSupportingFiles>

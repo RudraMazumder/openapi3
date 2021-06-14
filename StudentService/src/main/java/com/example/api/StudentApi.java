@@ -5,6 +5,7 @@
  */
 package com.example.api;
 
+import com.example.models.Course;
 import com.example.models.Student;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-06-11T16:54:17.856189400+02:00[Europe/Amsterdam]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-06-14T12:58:55.375323800+02:00[Europe/Amsterdam]")
 @Api(value = "student", description = "the student API")
 public interface StudentApi {
 
@@ -63,6 +64,27 @@ public interface StudentApi {
         consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<Void> studentPost(@ApiParam(value = ""  )  @Valid @RequestBody Student body
+);
+
+
+    @ApiOperation(value = "", nickname = "studentStudentIdCoursesGet", notes = "", response = Course.class, responseContainer = "List", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success Response for each identifier", response = Course.class, responseContainer = "List") })
+    @RequestMapping(value = "/student/{studentId}/courses",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<Course>> studentStudentIdCoursesGet(@ApiParam(value = "",required=true) @PathVariable("studentId") Integer studentId
+);
+
+
+    @ApiOperation(value = "", nickname = "studentStudentIdCoursesPost", notes = "Add new course", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 201, message = "Record Successfully Added") })
+    @RequestMapping(value = "/student/{studentId}/courses",
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<Void> studentStudentIdCoursesPost(@ApiParam(value = "",required=true) @PathVariable("studentId") Integer studentId
+,@ApiParam(value = ""  )  @Valid @RequestBody List<Course> body
 );
 
 }

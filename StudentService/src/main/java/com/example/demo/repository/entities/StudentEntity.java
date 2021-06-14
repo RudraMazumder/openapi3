@@ -1,36 +1,44 @@
 package com.example.demo.repository.entities;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import lombok.Getter;
-import lombok.Setter;
 
 
 @Entity
-@Table
-public class Student {
+@Table(name = "STUDENT")
+public class StudentEntity {
 
 	@Id
-	@Column
+	@Column(name = "STUDENT_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer studentId;
 
-	@Column
+	@Column(name="STUDENT_NAME")
 	private String studentName;
 
-	@Column
+	@Column(name = "STUDENT_AGE")
 	private Integer age;
 
-	@Column
-	private Integer groupId;
+	@Column(name = "GROUP_ID")
+	private String groupId;
 	
-	@Column
-	private String remarks;
+	
+	@ManyToMany
+    @JoinTable(
+    		name = "STUDENT_COURSE",
+    		joinColumns = @JoinColumn(name = "STUDENT_ID"),
+    		inverseJoinColumns = @JoinColumn(name = "COURSE_ID")
+    		)
+	private Set<CourseEntity> courses;
 
 	public Integer getStudentId() {
 		return studentId;
@@ -56,22 +64,23 @@ public class Student {
 		this.age = age;
 	}
 
-	public Integer getGroupId() {
+	public String getGroupId() {
 		return groupId;
 	}
 
-	public void setGroupId(Integer groupId) {
+	public void setGroupId(String groupId) {
 		this.groupId = groupId;
 	}
 
-	public String getRemarks() {
-		return remarks;
+	public Set<CourseEntity> getCourses() {
+		return courses;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setCourses(Set<CourseEntity> courses) {
+		this.courses = courses;
 	}
-	
+
+			
 	
 	
 
