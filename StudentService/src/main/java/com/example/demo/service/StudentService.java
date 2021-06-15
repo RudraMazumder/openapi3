@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.StudentRepository;
@@ -57,15 +59,15 @@ public class StudentService {
 		return courses.stream().map(StudentUtility::toCourseModel).collect(Collectors.toList());
 	}
 	
+	
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = RuntimeException.class)
 	public void enrollStudent(Integer studentId, List<Course> courseList) {
 		Set<CourseEntity> courseEntitySet = courseList.stream().map(StudentUtility::toCourseEntity).collect(Collectors.toSet());
-		courseDAO.saveAll(courseEntitySet);
-		
+		courseDAO.saveAll(courseEntitySet);		
 		StudentEntity student = studentDAO.getOne(studentId);
-		
 		student.setCourses(courseEntitySet);
-		StudentEntity save = studentDAO.save(student);
-		logger.info(toJsonString(save));
+		studentDAO.save(student);
+		
 		
 		
 	}
@@ -77,7 +79,7 @@ public class StudentService {
 		try {
 			toReturn=mapper.writeValueAsString(obj);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+			logger.error("Error {}", e);
 		}
 		
 		return toReturn;

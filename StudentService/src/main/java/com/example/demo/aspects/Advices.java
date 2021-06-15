@@ -13,37 +13,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Aspect
 @Component
 public class Advices {
-	
-	private static Logger LOGGER=LoggerFactory.getLogger(Advices.class);
-	
+
+	private static Logger LOGGER = LoggerFactory.getLogger(Advices.class);
+
 	@Around(value = "execution(* com.example.demo.service.*.*(..))")
-	public Object logRequestResponse(ProceedingJoinPoint pjp) {
+	public Object logRequestResponse(ProceedingJoinPoint pjp) throws Throwable {
 		String methodName = pjp.getSignature().getName();
-		String args= toJsonString(pjp.getArgs());
+		String args = toJsonString(pjp.getArgs());
 		String classname = pjp.getTarget().getClass().getName();
 		LOGGER.info("class name {}, method name {}, arguements {}", classname, methodName, args);
-		Object proceed =null;
-		try {
-			proceed = pjp.proceed();
-			LOGGER.info("Returned value {}", toJsonString(proceed));
-			
-		} catch (Throwable e) {
-			LOGGER.error("Error occured while proceeding {}", e);
-		}
-		
+		Object proceed = null;
+
+		proceed = pjp.proceed();
+		LOGGER.info("Returned value {}", toJsonString(proceed));
+
 		return proceed;
 	}
-	
+
 	public String toJsonString(Object obj) {
 		ObjectMapper mapper = new ObjectMapper();
-		String toReturn=null;
-		
+		String toReturn = null;
+
 		try {
-			toReturn=mapper.writeValueAsString(obj);
+			toReturn = mapper.writeValueAsString(obj);
 		} catch (JsonProcessingException e) {
 			LOGGER.error("Exception occured while parsing object to JSON {}", e);
 		}
-		
+
 		return toReturn;
 	}
 
