@@ -69,7 +69,12 @@ public class StudentController implements StudentApi{
 
 	@Override
 	public ResponseEntity<List<Course>> studentStudentIdCoursesGet(Integer studentId) {
-		ResponseEntity<List<Course>> responseEntity = new ResponseEntity<List<Course>>(studentService.getByStudent(studentId), HttpStatus.OK);
+		ResponseEntity<List<Course>> responseEntity = null;
+		List<Course> student = studentService.getByStudent(studentId);
+		if(student!=null && !student.isEmpty())
+			responseEntity = new ResponseEntity<List<Course>>(student, HttpStatus.OK);
+		else
+			responseEntity = new ResponseEntity<List<Course>>(student, HttpStatus.NOT_FOUND);
 		return responseEntity;
 	}
 

@@ -21,69 +21,50 @@ import com.example.models.Student;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-
 @Service
 public class StudentService {
-	
+
 	private Logger logger = LoggerFactory.getLogger(StudentService.class);
-	
+
 	@Autowired
 	private StudentRepository studentDAO;
-	
+
 	@Autowired
 	private CourseRepository courseDAO;
-	
-	
-	public List<Student> getAllStudent(){
-		 List<StudentEntity> allStudent = studentDAO.findAll();
-		 return allStudent.stream().map(StudentUtility::toStudentModel).collect(Collectors.toList());		 
+
+	public List<Student> getAllStudent() {
+		List<StudentEntity> allStudent = studentDAO.findAll();
+		return allStudent.stream().map(StudentUtility::toStudentModel).collect(Collectors.toList());
 	}
-	
+
 	public void saveStudent(Student student) {
 		StudentEntity studentEntity = StudentUtility.toStudentEntity(student);
 		studentDAO.save(studentEntity);
 	}
-	
+
 	public void deleteStudent(Integer id) {
 		studentDAO.deleteById(id);
 	}
-	
+
 	public Student getById(Integer id) {
 		StudentEntity student = studentDAO.getOne(id);
 		return StudentUtility.toStudentModel(student);
 	}
-	
-	public List<Course> getByStudent(Integer studentId){
+
+	public List<Course> getByStudent(Integer studentId) {
 		Set<CourseEntity> courses = studentDAO.getOne(studentId).getCourses();
 		return courses.stream().map(StudentUtility::toCourseModel).collect(Collectors.toList());
 	}
-	
-	
+
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = RuntimeException.class)
 	public void enrollStudent(Integer studentId, List<Course> courseList) {
-		Set<CourseEntity> courseEntitySet = courseList.stream().map(StudentUtility::toCourseEntity).collect(Collectors.toSet());
-		courseDAO.saveAll(courseEntitySet);		
+		Set<CourseEntity> courseEntitySet = courseList.stream().map(StudentUtility::toCourseEntity)
+				.collect(Collectors.toSet());
+		courseDAO.saveAll(courseEntitySet);
 		StudentEntity student = studentDAO.getOne(studentId);
 		student.setCourses(courseEntitySet);
 		studentDAO.save(student);
-		
-		
-		
+
 	}
-	
-	public String toJsonString(Object obj) {
-		ObjectMapper mapper = new ObjectMapper();
-		String toReturn=null;
-		
-		try {
-			toReturn=mapper.writeValueAsString(obj);
-		} catch (JsonProcessingException e) {
-			logger.error("Error {}", e);
-		}
-		
-		return toReturn;
-	}
-	
-	
+
 }
