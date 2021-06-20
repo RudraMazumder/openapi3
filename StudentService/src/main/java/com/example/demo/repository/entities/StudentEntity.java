@@ -40,6 +40,19 @@ public class StudentEntity {
     		)
 	private Set<CourseEntity> courses;
 
+	
+	
+	public StudentEntity() {
+		super();
+	}
+
+	public StudentEntity(String name, int age, String groupId) {
+		this.studentName=name;
+		this.age=age;
+		this.groupId=groupId;
+		
+	}
+
 	public Integer getStudentId() {
 		return studentId;
 	}

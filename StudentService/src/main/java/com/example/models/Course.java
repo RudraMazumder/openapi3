@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Course
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-06-16T13:10:16.277706300+02:00[Europe/Amsterdam]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-06-20T16:58:46.927502200+02:00[Europe/Amsterdam]")
 public class Course   {
   @JsonProperty("CourseUID")
   private Integer courseUID = null;
