@@ -17,6 +17,16 @@ paths:
           schema:
             type: string
             example: Rudra
+        - in : query
+          name: skip
+          schema:
+            type: integer
+            example: 0
+        - in : query
+          name: top
+          schema:
+            type: integer
+            example: 10
       responses:
         200:
           description: Success Response

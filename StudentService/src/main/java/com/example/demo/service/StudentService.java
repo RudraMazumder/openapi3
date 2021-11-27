@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +21,6 @@ import com.example.demo.repository.entities.StudentEntity;
 import com.example.demo.utility.StudentUtility;
 import com.example.models.Course;
 import com.example.models.Student;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class StudentService {
@@ -35,6 +36,12 @@ public class StudentService {
 	public List<Student> getAllStudent() {
 		List<StudentEntity> allStudent = studentDAO.findAll();
 		return allStudent.stream().map(StudentUtility::toStudentModel).collect(Collectors.toList());
+	}
+	
+	public List<Student> getPaginatedStudent(Integer skip, Integer top){
+		Pageable paging = PageRequest.of(skip, top);
+		Page<StudentEntity> studentList = studentDAO.findAll(paging);
+		return studentList.stream().map(StudentUtility::toStudentModel).collect(Collectors.toList());
 	}
 
 	public void saveStudent(Student student) {

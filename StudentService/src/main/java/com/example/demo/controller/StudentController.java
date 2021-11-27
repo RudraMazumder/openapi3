@@ -86,12 +86,29 @@ public class StudentController implements StudentApi{
 	}
 
 	@Override
-	public ResponseEntity<List<Student>> studentGet(@Valid String studentname) {
+	public ResponseEntity<List<Student>> studentGet(@Valid String studentname, @Valid Integer skip,
+			@Valid Integer top) {
 		
-		List<Student> allStudent = studentService.getAllStudent();
-		ResponseEntity<List<Student>> response=new ResponseEntity<List<Student>>(allStudent, HttpStatus.OK);
-		return response;
+		List<Student> returningStudent=null;
+		
+		if(skip!=null && top!=null)
+			returningStudent = studentService.getPaginatedStudent(skip, top);
+		else
+			returningStudent = studentService.getAllStudent();
+		
+		ResponseEntity<List<Student>> response=new ResponseEntity<List<Student>>(returningStudent, HttpStatus.OK); 
+		return response; 
+		
 	}
+
+	/*
+	 * @Override public ResponseEntity<List<Student>> studentGet(@Valid String
+	 * studentname) {
+	 * 
+	 * List<Student> allStudent = studentService.getAllStudent();
+	 * ResponseEntity<List<Student>> response=new
+	 * ResponseEntity<List<Student>>(allStudent, HttpStatus.OK); return response; }
+	 */
 
 	
 	
