@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-27T17:19:47.628+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-27T21:18:25.609+01:00[Europe/Berlin]")
 @Api(value = "student", description = "the student API")
 public interface StudentApi {
 
@@ -35,8 +35,8 @@ public interface StudentApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Student>> studentGet(@ApiParam(value = "") @Valid @RequestParam(value = "studentname", required = false) String studentname
-,@ApiParam(value = "") @Valid @RequestParam(value = "skip", required = false) Integer skip
-,@ApiParam(value = "") @Valid @RequestParam(value = "top", required = false) Integer top
+,@ApiParam(value = "") @Valid @RequestParam(value = "page", required = false) Integer page
+,@ApiParam(value = "") @Valid @RequestParam(value = "size", required = false) Integer size
 );
 
 

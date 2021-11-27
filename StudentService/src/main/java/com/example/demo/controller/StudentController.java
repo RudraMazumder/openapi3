@@ -86,13 +86,13 @@ public class StudentController implements StudentApi{
 	}
 
 	@Override
-	public ResponseEntity<List<Student>> studentGet(@Valid String studentname, @Valid Integer skip,
-			@Valid Integer top) {
+	public ResponseEntity<List<Student>> studentGet(@Valid String studentname, @Valid Integer page,
+			@Valid Integer size) {
 		
 		List<Student> returningStudent=null;
 		
-		if(skip!=null && top!=null)
-			returningStudent = studentService.getPaginatedStudent(skip, top);
+		if(page!=null && size!=null)
+			returningStudent = studentService.getPaginatedStudent(page, size);
 		else
 			returningStudent = studentService.getAllStudent();
 		

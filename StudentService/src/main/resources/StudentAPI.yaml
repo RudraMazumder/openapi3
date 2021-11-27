@@ -18,12 +18,12 @@ paths:
             type: string
             example: Rudra
         - in : query
-          name: skip
+          name: page
           schema:
             type: integer
             example: 0
         - in : query
-          name: top
+          name: size
           schema:
             type: integer
             example: 10
