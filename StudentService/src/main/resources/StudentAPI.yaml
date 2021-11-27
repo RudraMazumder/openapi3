@@ -187,7 +187,20 @@ components:
             example: 10
           GroupID:
             type: string
-            example: GROUP-3  
+            example: GROUP-3 
+          Address:
+            type: object
+            properties:
+              HouseNumber:
+                type: integer
+                example: 34
+              StreetName:
+                type: string
+                example: Obelisk
+              City:
+                type: string
+                example: Hoofddorp
+               
      
     course:
       type: object

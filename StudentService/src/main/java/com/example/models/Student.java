@@ -1,6 +1,7 @@
 package com.example.models;
 
 import java.util.Objects;
+import com.example.models.StudentAddress;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -13,7 +14,7 @@ import javax.validation.constraints.*;
  * Student
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-27T21:18:25.609+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-11-27T21:30:46.775+01:00[Europe/Berlin]")
 public class Student   {
   @JsonProperty("StudentID")
   private Integer studentID = null;
@@ -26,6 +27,9 @@ public class Student   {
 
   @JsonProperty("GroupID")
   private String groupID = null;
+
+  @JsonProperty("Address")
+  private StudentAddress address = null;
 
   public Student studentID(Integer studentID) {
     this.studentID = studentID;
@@ -103,6 +107,26 @@ public class Student   {
     this.groupID = groupID;
   }
 
+  public Student address(StudentAddress address) {
+    this.address = address;
+    return this;
+  }
+
+  /**
+   * Get address
+   * @return address
+  **/
+  @ApiModelProperty(value = "")
+  
+    @Valid
+    public StudentAddress getAddress() {
+    return address;
+  }
+
+  public void setAddress(StudentAddress address) {
+    this.address = address;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -116,12 +140,13 @@ public class Student   {
     return Objects.equals(this.studentID, student.studentID) &&
         Objects.equals(this.studentName, student.studentName) &&
         Objects.equals(this.age, student.age) &&
-        Objects.equals(this.groupID, student.groupID);
+        Objects.equals(this.groupID, student.groupID) &&
+        Objects.equals(this.address, student.address);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(studentID, studentName, age, groupID);
+    return Objects.hash(studentID, studentName, age, groupID, address);
   }
 
   @Override
@@ -133,6 +158,7 @@ public class Student   {
     sb.append("    studentName: ").append(toIndentedString(studentName)).append("\n");
     sb.append("    age: ").append(toIndentedString(age)).append("\n");
     sb.append("    groupID: ").append(toIndentedString(groupID)).append("\n");
+    sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("}");
     return sb.toString();
   }
