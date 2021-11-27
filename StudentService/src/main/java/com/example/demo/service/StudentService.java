@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.entities.CourseEntity;
@@ -32,6 +33,9 @@ public class StudentService {
 
 	@Autowired
 	private CourseRepository courseDAO;
+	
+	@Autowired
+	private AddressRepository addressDAO;
 
 	public List<Student> getAllStudent() {
 		List<StudentEntity> allStudent = studentDAO.findAll();
@@ -46,6 +50,8 @@ public class StudentService {
 
 	public void saveStudent(Student student) {
 		StudentEntity studentEntity = StudentUtility.toStudentEntity(student);
+		addressDAO.save(studentEntity.getAddress());
+		
 		studentDAO.save(studentEntity);
 	}
 

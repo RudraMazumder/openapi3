@@ -1,9 +1,13 @@
 package com.example.demo.utility;
 
+import javax.validation.Valid;
+
+import com.example.demo.repository.entities.AddressEntity;
 import com.example.demo.repository.entities.CourseEntity;
 import com.example.demo.repository.entities.StudentEntity;
 import com.example.models.Course;
 import com.example.models.Student;
+import com.example.models.StudentAddress;
 
 public class StudentUtility {
 	
@@ -17,6 +21,20 @@ public class StudentUtility {
 		studentModel.setStudentName(student.getStudentName());
 		studentModel.setAge(student.getAge());
 		studentModel.setGroupID(student.getGroupId());
+		
+		StudentAddress address = new StudentAddress();
+		
+		
+		AddressEntity addressEntity = student.getAddress();
+		
+		
+		if (addressEntity!=null) {
+			address.setCity(addressEntity.getCity());
+			address.setHouseNumber(addressEntity.getHouseNumber());
+			address.setStreetName(addressEntity.getStreet());
+		}
+		studentModel.setAddress(address);
+		
 		return studentModel;
 		
 	}
@@ -28,6 +46,18 @@ public class StudentUtility {
 		if(student.getStudentID()!=null)
 			studentEntity.setStudentId(student.getStudentID());
 		studentEntity.setGroupId(student.getGroupID());
+		AddressEntity addressEntity = new AddressEntity();
+
+		StudentAddress address = student.getAddress();
+		if(address!=null) {
+			addressEntity.setCity(address.getCity());
+			addressEntity.setHouseNumber(address.getHouseNumber());
+			addressEntity.setStreet(address.getStreetName());
+		}
+		
+		
+		studentEntity.setAddress(addressEntity);
+		
 		return studentEntity;
 		
 	}

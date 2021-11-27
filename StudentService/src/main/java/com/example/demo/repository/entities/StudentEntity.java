@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -40,6 +41,9 @@ public class StudentEntity {
     		)
 	private Set<CourseEntity> courses;
 
+	
+	@OneToOne
+	private AddressEntity address;
 	
 	
 	public StudentEntity() {
@@ -91,6 +95,14 @@ public class StudentEntity {
 
 	public void setCourses(Set<CourseEntity> courses) {
 		this.courses = courses;
+	}
+
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
 	}
 
 			
