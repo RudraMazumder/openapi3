@@ -2,6 +2,7 @@ package com.example.demo.repository.entities;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,7 +43,7 @@ public class StudentEntity {
 	private Set<CourseEntity> courses;
 
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private AddressEntity address;
 	
 	

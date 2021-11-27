@@ -14,7 +14,7 @@ public class AddressEntity {
 
 	@Id
 	@Column(name = "ADDRESS_ID")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer addressId;
 
 	@Column(name="HOUSE_NUMBER")

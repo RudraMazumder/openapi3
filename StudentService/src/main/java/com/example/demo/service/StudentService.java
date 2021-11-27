@@ -48,10 +48,11 @@ public class StudentService {
 		return studentList.stream().map(StudentUtility::toStudentModel).collect(Collectors.toList());
 	}
 
+	
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void saveStudent(Student student) {
 		StudentEntity studentEntity = StudentUtility.toStudentEntity(student);
 		addressDAO.save(studentEntity.getAddress());
-		
 		studentDAO.save(studentEntity);
 	}
 
